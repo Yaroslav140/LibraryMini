@@ -15,3 +15,4 @@ C:\Users\param\source\repos\Library\Library\obj\Debug\net8.0\ref\Library.dll
 C:\Users\param\source\repos\Library\Library\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\param\source\repos\Library\Library\obj\Debug\net8.0\Library.csproj.AssemblyReference.cache
 C:\Users\param\source\repos\Library\Library\obj\Debug\net8.0\Library.csproj.Up2Date
+C:\Users\param\source\repos\Library\Library\obj\Debug\net8.0\Library.sourcelink.json

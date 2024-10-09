@@ -1,93 +1,135 @@
 ﻿using static System.Console;
 using System.IO;
+using Library.Model;
 
 namespace Library
 {
     class LibraryMain
     {
-        private static List<People> personInLibary = new List<People>();
-        private static string filePath = "person.json";
-        private static void Main()
+        private string? name = ReadLine() ?? "Пушкин";
+        private int pages = int.Parse(ReadLine());
+        private DateTime dateOfRelease = DateTime.Parse(ReadLine());
+        private int shelvesNumber = int.Parse(ReadLine());
+
+        private static List<User> peopleList;
+        private static UserModel userModel = new UserModel();
+        private static Server server;
+
+        private static bool _isActiveMenu = true;
+        private static bool _isActiveLibary = true;
+        public static void Main(string[] args)
         {
+            server = new Server(20);
+            peopleList = userModel.UsersList;
             MainMenu();
         }
 
         private static void MainMenu()
         {
-            while (true)
+            while (_isActiveMenu)
             {
                 WriteLine("Добро пожаловать в библиотеку!");
-                WriteLine("1.Вход\n2.Регестрация");
+                WriteLine("1.Вход\n2.Регестрация\n3.Выход");
                 string? choice = ReadLine();
                 switch (choice)
                 {
                     case "1":
-                        Authorization();
+                        if (Login.Authorization(peopleList))
+                        {
+                            Clear();
+                            _isActiveMenu = false;
+                            Menu();
+
+                        }
+                        else
+                        {
+                            MainMenu();
+                        }
                         break;
                     case "2":
-                        Registration();
+                        if(Login.Registration(peopleList, userModel))
+                        {
+                            Clear();
+                            MainMenu();
+                        }
+                        else
+                        {
+                            MainMenu();
+                        }
+                        break;
+                    case "3":
+                        _isActiveMenu = false;
+                        Clear();
+                        break;
+                    default:
+                        WriteLine("Неккоректный ввод!");
+                        MainMenu();
                         break;
                 }
             }
         }
-        private static void Authorization()
-        {
-            Write("Введите логин: ");
-            string? login = ReadLine();
-            Write("Введите пароль: ");
-            string? password = ReadLine();
 
-            foreach (var person in personInLibary)
+        private static void Menu()
+        {
+            while (_isActiveLibary)
             {
-                //Нужно подключаться к файлу и от чаитать данные
-                if (person.Login == login && person.Password == password)
+                WriteLine("1.Посмотреть весь каталог\n2.Добавить новую книгу на полку\n3.Убрать книгу с полки\n4.Уйти");
+                var choice = ReadLine();
+                switch (choice)
                 {
-                    WriteLine("Успешный вход!");
+                    case "1":
+                        Clear();
+                        server.DisplayLibrary();
+                        Write("Нажмите чтобы продолжить...");
+                        ReadKey();
+                        break;
+                    case "2":
+                        WriteLine("Что за книгу вы хотите добавить?");
+                        server.AddBookOnShelves(AddNewBook());
+                        Write("Нажмите чтобы продолжить...");
+                        ReadKey();
+                        Clear();
+                        break;
+                    case "3":
+                        Write("Скажите название книги или полку на котрой она стоит?");
+                        server.DeleateBookOnShelves(RemoveBook());
+                        break;
+                    case "4":
+                        _isActiveLibary = false;
+                        _isActiveMenu = true;
+                        MainMenu();
+                        break;
                 }
             }
-            WriteLine("Такого пользователя нет, зарегестируйте нового пользователя чтобы войти");
-            ReadKey();
-            Clear();
-            MainMenu();
         }
 
-        private static void Registration()
+        private static Book AddNewBook()
         {
-            Write("Введите ваше имя: ");
-            string? name = ReadLine();
-            Write("Введите вашу фамилию: ");
-            string? firstName = ReadLine();
-            Write("Введите логин: ");
-            string? login = ReadLine();
-            Write("Введите пароль: ");
-            string? password = ReadLine();
-            Write("Введите уникальную метку: ");
-            string? uniqueKey = ReadLine();
+            Write("Название книги: ");
+            string? name = ReadLine() ?? "Пушкин";
+            Write("Колличество страниц: ");
+            int pages = int.Parse(ReadLine());
+            Write("Дата выпуска: ");
+            DateTime dateOfRelease = DateTime.Parse(ReadLine());
+            Write("На какую полку хотите поставить: ");
+            int shelvesNumber = int.Parse(ReadLine());;
 
-            foreach (var person in personInLibary)
+            return new Book(name, pages, dateOfRelease, shelvesNumber);
+        }
+        private static Book RemoveBook()
+        {
+            Write("Название книги: ");
+            string? name = ReadLine() ?? "Пушкин";
+            Write("На какой полке стоит книга: ");
+            int shelvesNumber = int.Parse(ReadLine()); ;
+            foreach (var book in server.Shelves)
             {
-                if (person.Login == login && person.Password == password && person.UniqueKey == uniqueKey)
+                if (book.Name == name && book.ShelvesNumber == shelvesNumber)
                 {
-                    WriteLine("Такой пользователь уже существует, повторите вход!");
-                    ReadKey();
-                    Clear();
-                    Registration();
+                    return new Book(book.Name, book.Pages, book.DataOfPublication, book.ShelvesNumber);
                 }
             }
-            if (uniqueKey == "ADmIn")
-            {
-                People people = new Admin(name, firstName, password, login, uniqueKey);
-                personInLibary.Add(people);
-                SaveData<People>.SaveJSONFile(people);
-                WriteLine("Новый админ успешно добавлен!");
-            }
-            else
-            {
-                People people = new User(name, firstName, password, login, uniqueKey);
-                personInLibary.Add(people);
-                SaveData<People>.SaveJSONFile(people);
-                WriteLine("Новый пользователь успешно добавлен!");
-            }
+            return null;
         }
     }
 }

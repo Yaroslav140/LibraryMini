@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace Library
 {
     class Server
     {
         private int _shelvesNumber;
-
+        private static string filePath = "book.json";
+        private static string shelvesFilePath = "shelves.json";
         public int ShelvesNumber
         {
             get { return _shelvesNumber; }
@@ -22,68 +23,66 @@ namespace Library
             }
         }
         public int[,] polks;
-        public Dictionary<Book, int> Shelves { get; private set; }
+        public List<Book> Shelves { get; private set; }
 
-        public static bool IsActiveServer;
         public Server(int shelves)
         {
-            Shelves = [];
-            polks = new int[shelves, shelves];
+            Shelves = LoadBooksFromFile();
+            polks = LoadShelvesFromFile(shelves); 
             ShelvesNumber = shelves;
         }
 
         public void DisplayLibrary()
         {
-            Console.Write("   "); 
+            Console.Write("   ");
             for (int j = 0; j < polks.GetLength(1); j++)
             {
-                Console.Write($"{j:D2} "); 
+                Console.Write($"{j:D2} ");
             }
-            Console.WriteLine(); 
+            Console.WriteLine();
 
-     
             for (int i = 0; i < polks.GetLength(0); i++)
             {
-                Console.Write($"{i:D2} "); 
-
+                Console.Write($"{i:D2} ");
                 for (int j = 0; j < polks.GetLength(1); j++)
                 {
                     Console.Write($"{polks[i, j],2} ");
                 }
-
-                Console.WriteLine(); 
+                Console.WriteLine();
             }
         }
-
-
 
         public int IncrementShelves(int incremetShelves) => ShelvesNumber = (incremetShelves > 0) ? ShelvesNumber + incremetShelves : ShelvesNumber;
 
-        public void AddBookOnShelves(Book book, int numberShelves = 0)
+        public void AddBookOnShelves(Book book)
         {
-            if (polks[numberShelves, numberShelves] == 0)
+            if (polks[book.ShelvesNumber, book.ShelvesNumber] == 0)
             {
-                Shelves.Add(book, numberShelves);
-                polks[numberShelves, numberShelves] = 1;
-                Console.WriteLine($"Книга {book.Name} стоит теперь на полке {numberShelves}!");
+                Shelves.Add(book);
+                polks[book.ShelvesNumber, book.ShelvesNumber] = 1;
+                Console.WriteLine($"Книга {book.Name} стоит теперь на полке {book.ShelvesNumber}!");
+                SaveBooksToFile();
+                SaveShelvesToFile(); 
             }
             else
             {
-                Console.WriteLine($"Полка {numberShelves} занята выберите другую!");
+                Console.WriteLine($"Полка {book.ShelvesNumber} занята выберите другую!");
             }
         }
 
-        public void DeleateBookOnShelves(Book book, int numberShelves)
+        public void DeleateBookOnShelves(Book book)
         {
-            if (polks[numberShelves, numberShelves] == 1)
+            if (polks[book.ShelvesNumber, book.ShelvesNumber] == 1)
             {
-                Shelves.Add(book, numberShelves);
-                polks[numberShelves, numberShelves] = 0;
-                Console.WriteLine($"Книга {book.Name} теперь не стоит на полке {numberShelves}!");
+                Shelves.Remove(book);
+                polks[book.ShelvesNumber, book.ShelvesNumber] = 0;
+                Console.WriteLine($"Книга {book.Name} теперь не стоит на полке {book.ShelvesNumber}!");
+                SaveBooksToFile();
+                SaveShelvesToFile();
             }
             else
             {
-                Console.WriteLine($"Полка {numberShelves} пуста выберите другую!");
+                Console.WriteLine($"Полка {book.ShelvesNumber} пуста выберите другую!");
             }
         }
 
@@ -96,6 +95,37 @@ namespace Library
                     polks[i, j] = 0;
                 }
             }
+            SaveShelvesToFile(); // Обнуляем состояние полок
+        }
+
+        private void SaveBooksToFile()
+        {
+            string jsonData = JsonConvert.SerializeObject(Shelves.ToList());
+            File.WriteAllText(filePath, jsonData);
+        }
+
+        private List<Book> LoadBooksFromFile()
+        {
+            if (!File.Exists(filePath))
+                return new List<Book>();
+
+            string jsonData = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<List<Book>>(jsonData) ?? new List<Book>();
+        }
+
+        private void SaveShelvesToFile()
+        {
+            string jsonData = JsonConvert.SerializeObject(polks);
+            File.WriteAllText(shelvesFilePath, jsonData);
+        }
+
+        private int[,] LoadShelvesFromFile(int size)
+        {
+            if (!File.Exists(shelvesFilePath))
+                return new int[size, size];
+
+            string jsonData = File.ReadAllText(shelvesFilePath);
+            return JsonConvert.DeserializeObject<int[,]>(jsonData) ?? new int[size, size];
         }
     }
 }
