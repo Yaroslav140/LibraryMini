@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\param\\source\\repos\\Library\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|c:\\users\\param\\source\\repos\\library\\library\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|solutionrelative:library\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|c:\\users\\param\\source\\repos\\library\\library\\librarymain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|solutionrelative:library\\librarymain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|c:\\users\\param\\source\\repos\\library\\library\\model\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|solutionrelative:library\\model\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|c:\\users\\param\\source\\repos\\library\\library\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDE8A603-3641-4A73-81E6-C571116264DD}|Library\\Library.csproj|solutionrelative:library\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Book.cs",
-              "DocumentMoniker": "C:\\Users\\param\\source\\repos\\Library\\Library\\Book.cs",
-              "RelativeDocumentMoniker": "Library\\Book.cs",
-              "ToolTip": "C:\\Users\\param\\source\\repos\\Library\\Library\\Book.cs",
-              "RelativeToolTip": "Library\\Book.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 2,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\param\\source\\repos\\Library\\Library\\Login.cs",
+              "RelativeDocumentMoniker": "Library\\Login.cs",
+              "ToolTip": "C:\\Users\\param\\source\\repos\\Library\\Library\\Login.cs",
+              "RelativeToolTip": "Library\\Login.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADoAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T17:57:32.191Z",
+              "WhenOpened": "2024-10-14T18:50:07.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserModel.cs",
+              "DocumentMoniker": "C:\\Users\\param\\source\\repos\\Library\\Library\\Model\\UserModel.cs",
+              "RelativeDocumentMoniker": "Library\\Model\\UserModel.cs",
+              "ToolTip": "C:\\Users\\param\\source\\repos\\Library\\Library\\Model\\UserModel.cs",
+              "RelativeToolTip": "Library\\Model\\UserModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T18:45:48.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LibraryMain.cs",
+              "DocumentMoniker": "C:\\Users\\param\\source\\repos\\Library\\Library\\LibraryMain.cs",
+              "RelativeDocumentMoniker": "Library\\LibraryMain.cs",
+              "ToolTip": "C:\\Users\\param\\source\\repos\\Library\\Library\\LibraryMain.cs",
+              "RelativeToolTip": "Library\\LibraryMain.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAgwFgAAACyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T18:42:51.293Z",
               "EditorCaption": ""
             }
           ]

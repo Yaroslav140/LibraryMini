@@ -17,6 +17,7 @@ namespace Library
 
         private static bool _isActiveMenu = true;
         private static bool _isActiveLibary;
+        private static bool _isActiveProfile;
         public static void Main(string[] args)
         {
             server = new Server(20);
@@ -40,7 +41,7 @@ namespace Library
                             Clear();
                             _isActiveMenu = false;
                             _isActiveLibary = true;
-                            Menu();
+                            Profile();
 
                         }
                         else
@@ -65,6 +66,34 @@ namespace Library
                         Clear();
                         break;
                     default:
+                        Clear();
+                        MainMenu();
+                        break;
+                }
+            }
+        }
+
+        private static void Profile()
+        {
+            while (_isActiveProfile)
+            {
+                WriteLine("1.Войти в библиотеку\n2.Редактировать профиль\n3.Уйти");
+                var choice = ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        Clear();
+                        Menu();
+                        break;
+                    case "2":
+                         //Проблема со входом, мы входим в НН профиль просто возрощается true и мы входим, из за этого мешает раелизовать чтобы человек мог брать и отдавать книгу
+/*                        userModel.EditUser();*/
+                        Clear();
+                        break;
+                    case "3":
+                        _isActiveProfile = false;
+                        _isActiveLibary = false;
+                        _isActiveMenu = true;
                         Clear();
                         MainMenu();
                         break;

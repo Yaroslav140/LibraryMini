@@ -54,10 +54,12 @@ namespace Library
                 }
             }
 
-            User people = new(name, firstName, uniqueKey, login, password, Role.Пользователь);
-            people.Id = userModel.MaxId() + 1;
+            User people = new(name, firstName, uniqueKey, login, password, Role.Пользователь)
+            {
+               Id = userModel.MaxId() + 1
+            };
             userModel.UsersList.Add(people);
-            userModel.SavePersonsToFile();  
+            userModel.SaveUsersToFile();  
 
             WriteLine("Новый пользователь успешно добавлен!");
             ReadKey();

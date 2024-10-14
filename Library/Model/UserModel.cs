@@ -9,7 +9,7 @@ namespace Library.Model
 
         public UserModel()
         {
-            UsersList = LoadPersonsFromFile();
+            UsersList = LoadUsersFromFile();
         }
         public int MaxId()
         {
@@ -17,38 +17,46 @@ namespace Library.Model
                 return 0;
             return UsersList.Max(p => p.Id);
         }
-        public void SavePersonsToFile()
+        public void SaveUsersToFile()
         {
             string jsonData = JsonConvert.SerializeObject(UsersList.ToList());
             File.WriteAllText(filePath, jsonData);
         }
 
-        private List<User> LoadPersonsFromFile()
+        private List<User> LoadUsersFromFile()
         {
             if (!File.Exists(filePath))
-                return new List<User>();
+                return [];
 
             string jsonData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
         }
 
-        public void EditPerson(User editedPerson)
+        public void EditUser(User editedPerson)
         {
-            var admin = UsersList.FirstOrDefault(p => p.Id == editedPerson.Id);
-            if (admin != null)
+            Console.Write("Введите новое имя: ");
+            string? name = Console.ReadLine();
+            Console.Write("Введите вашу фамилию: ");
+            string? firstName = Console.ReadLine();
+            Console.Write("Введите логин: ");
+            string? login = Console.ReadLine();
+            Console.Write("Введите пароль: ");
+            string? password = Console.ReadLine();
+
+            if (editedPerson != null)
             {
-                admin.FirstName = editedPerson.FirstName;
-                admin.Name = editedPerson.Name;
-                admin.UniqueKey = editedPerson.UniqueKey;
-                admin.RolePeople = editedPerson.RolePeople;
+                editedPerson.Name = name;
+                editedPerson.FirstName = firstName;
+                editedPerson.Login = login;
+                editedPerson.Password = password;
             }
-            SavePersonsToFile();
+            SaveUsersToFile();
         }
 
-        public void DeletePerson(User personToDelete)
+        public void DeleteUser(User personToDelete)
         {
             UsersList.Remove(personToDelete);
-            SavePersonsToFile();
+            SaveUsersToFile();
         }
     }
 }
