@@ -16,7 +16,7 @@ namespace Library
         private static Server server;
 
         private static bool _isActiveMenu = true;
-        private static bool _isActiveLibary = true;
+        private static bool _isActiveLibary;
         public static void Main(string[] args)
         {
             server = new Server(20);
@@ -34,10 +34,12 @@ namespace Library
                 switch (choice)
                 {
                     case "1":
+                        Clear();
                         if (Login.Authorization(peopleList))
                         {
                             Clear();
                             _isActiveMenu = false;
+                            _isActiveLibary = true;
                             Menu();
 
                         }
@@ -47,6 +49,7 @@ namespace Library
                         }
                         break;
                     case "2":
+                        Clear();
                         if(Login.Registration(peopleList, userModel))
                         {
                             Clear();
@@ -62,7 +65,7 @@ namespace Library
                         Clear();
                         break;
                     default:
-                        WriteLine("Неккоректный ввод!");
+                        Clear();
                         MainMenu();
                         break;
                 }
@@ -97,6 +100,7 @@ namespace Library
                     case "4":
                         _isActiveLibary = false;
                         _isActiveMenu = true;
+                        Clear();
                         MainMenu();
                         break;
                 }

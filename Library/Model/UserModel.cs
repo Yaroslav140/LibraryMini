@@ -11,7 +11,12 @@ namespace Library.Model
         {
             UsersList = LoadPersonsFromFile();
         }
-
+        public int MaxId()
+        {
+            if (UsersList.Count == 0)
+                return 0;
+            return UsersList.Max(p => p.Id);
+        }
         public void SavePersonsToFile()
         {
             string jsonData = JsonConvert.SerializeObject(UsersList.ToList());
@@ -26,18 +31,19 @@ namespace Library.Model
             string jsonData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
         }
-        /*        public void EditPerson(Admin editedPerson)
-                {
-                    var admin = Admins.FirstOrDefault(p => p.Id == editedPerson.Id);
-                    if (admin != null)
-                    {
-                        admin.FirstName = editedPerson.FirstName;
-                        admin.Name = editedPerson.Name;
-                        admin.UniqueKey = editedPerson.UniqueKey;
-                        admin.RolePeople = editedPerson.RolePeople;
-                    }
-                    SavePersonsToFile();
-                }*/
+
+        public void EditPerson(User editedPerson)
+        {
+            var admin = UsersList.FirstOrDefault(p => p.Id == editedPerson.Id);
+            if (admin != null)
+            {
+                admin.FirstName = editedPerson.FirstName;
+                admin.Name = editedPerson.Name;
+                admin.UniqueKey = editedPerson.UniqueKey;
+                admin.RolePeople = editedPerson.RolePeople;
+            }
+            SavePersonsToFile();
+        }
 
         public void DeletePerson(User personToDelete)
         {

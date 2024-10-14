@@ -1,4 +1,5 @@
 ﻿using Library.Model;
+using System;
 using static System.Console;
 
 namespace Library
@@ -11,22 +12,22 @@ namespace Library
             string? login = ReadLine();
             Write("Введите пароль: ");
             string? password = ReadLine();
-
+            bool userFound = false;
             foreach (var person in user)
             {
                 if (person.Login == login && person.Password == password)
                 {
                     WriteLine("Успешный вход!");
-                    return true;
-                }
-                else
-                {
-                    WriteLine("Такого пользователя нет, зарегестируйте нового пользователя чтобы войти");
-                    ReadKey();
-                    Clear();
+                    return userFound = true;
                 }
             }
-            return false;
+            if (!userFound)
+            {
+                WriteLine("Такого пользователя нет, зарегестируйте нового пользователя чтобы войти");
+                ReadKey();
+                Clear();
+            }
+            return userFound;
         }
 
         public static bool Registration(List<User> user, UserModel userModel)
@@ -49,20 +50,21 @@ namespace Library
                     WriteLine("Такой пользователь уже существует, повторите вход!");
                     ReadKey();
                     Clear();
-                    Registration(user, userModel);
                     return false;
                 }
-                if (person.Login != login && person.Password != password && person.UniqueKey != uniqueKey)
-                {
-                    User people = new(name, firstName, uniqueKey, login, password, Role.Пользователь);
-                    user.Add(people);
-                    userModel.UsersList.Add(people);
-                    userModel.SavePersonsToFile();
-                    WriteLine("Новый пользователь успешно добавлен!");
-                    return true;
-                }
             }
+
+            User people = new(name, firstName, uniqueKey, login, password, Role.Пользователь);
+            people.Id = userModel.MaxId() + 1;
+            userModel.UsersList.Add(people);
+            userModel.SavePersonsToFile();  
+
+            WriteLine("Новый пользователь успешно добавлен!");
+            ReadKey();
+            Clear();
+
             return true;
         }
+
     }
 }

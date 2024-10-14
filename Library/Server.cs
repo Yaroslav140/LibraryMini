@@ -37,13 +37,13 @@ namespace Library
             Console.Write("   ");
             for (int j = 0; j < polks.GetLength(1); j++)
             {
-                Console.Write($"{j:D2} ");
+                Console.Write($"{j + 1:D2} ");
             }
             Console.WriteLine();
 
             for (int i = 0; i < polks.GetLength(0); i++)
             {
-                Console.Write($"{i:D2} ");
+                Console.Write($"{i + 1:D2} ");
                 for (int j = 0; j < polks.GetLength(1); j++)
                 {
                     Console.Write($"{polks[i, j],2} ");
@@ -56,17 +56,23 @@ namespace Library
 
         public void AddBookOnShelves(Book book)
         {
-            if (polks[book.ShelvesNumber, book.ShelvesNumber] == 0)
+            try
             {
-                Shelves.Add(book);
-                polks[book.ShelvesNumber, book.ShelvesNumber] = 1;
-                Console.WriteLine($"Книга {book.Name} стоит теперь на полке {book.ShelvesNumber}!");
-                SaveBooksToFile();
-                SaveShelvesToFile(); 
-            }
-            else
+                if (polks[book.ShelvesNumber, book.ShelvesNumber] == 0)
+                {
+                    Shelves.Add(book);
+                    polks[book.ShelvesNumber - 1, book.ShelvesNumber - 1] = 1;
+                    Console.WriteLine($"Книга {book.Name} стоит теперь на полке {book.ShelvesNumber}!");
+                    SaveBooksToFile();
+                    SaveShelvesToFile();
+                }
+                else
+                {
+                    Console.WriteLine($"Полка {book.ShelvesNumber} занята выберите другую!");
+                }
+            } catch (IndexOutOfRangeException ex)
             {
-                Console.WriteLine($"Полка {book.ShelvesNumber} занята выберите другую!");
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -95,7 +101,7 @@ namespace Library
                     polks[i, j] = 0;
                 }
             }
-            SaveShelvesToFile(); // Обнуляем состояние полок
+            SaveShelvesToFile();
         }
 
         private void SaveBooksToFile()
